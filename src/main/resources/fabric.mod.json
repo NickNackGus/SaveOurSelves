@@ -13,10 +13,9 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.nicknackgus.saveourselves.client.SaveOurSelvesClient"
+      "com.nicknackgus.saveourselves.SaveOurSelvesClient"
     ],
     "main": [
-      "com.nicknackgus.saveourselves.SaveOurSelves"
     ]
   },
   "mixins": [
