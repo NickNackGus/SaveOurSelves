@@ -16,6 +16,9 @@
       "com.nicknackgus.saveourselves.SaveOurSelvesClient"
     ],
     "main": [
+    ],
+    "modmenu": [
+      "com.nicknackgus.saveourselves.options.ConfigMenu"
     ]
   },
   "mixins": [
