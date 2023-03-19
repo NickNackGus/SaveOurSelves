@@ -9,7 +9,7 @@ public class Options implements ch.njol.minecraft.config.Options {
 	public boolean selfLowHealthEnableLoop = true;
 	@Category("self")
 	@FloatSlider(min = 0.0F, max = 100.0F, step = 1.0F, unit = " %")
-	public float selfLowHealthVolume = 10.0F;
+	public float selfLowHealthVolume = 25.0F;
 	@Category("self")
 	@FloatSlider(min = 0.0F, max = 100.0F, step = 5.0F, unit = " %")
 	public float selfLowHealthPercentage = 50.0F;
