@@ -3,6 +3,7 @@ package com.nicknackgus.saveourselves.alarms;
 import com.nicknackgus.saveourselves.Constants;
 import com.nicknackgus.saveourselves.SaveOurSelvesClient;
 import com.nicknackgus.saveourselves.options.Options;
+import com.nicknackgus.saveourselves.utils.PlayerUtils;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
@@ -34,10 +35,7 @@ public class LoopingAlarm implements ClientTickEvents.EndTick {
 		}
 
 		public void update(MinecraftClient client, PlayerEntity player) {
-			float maxHealth = player.getMaxHealth();
-			float health = player.getHealth();
-			if (maxHealth <= 0.0f ||
-					100.0f * health / maxHealth <= SaveOurSelvesClient.options.selfLowHealthPercentage) {
+			if (PlayerUtils.getHealthPercent(player) <= SaveOurSelvesClient.options.selfLowHealthPercentage) {
 				LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
 				if (healthy) {
