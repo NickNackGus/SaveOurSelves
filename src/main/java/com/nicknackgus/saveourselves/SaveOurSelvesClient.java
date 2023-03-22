@@ -3,7 +3,7 @@ package com.nicknackgus.saveourselves;
 import ch.njol.minecraft.config.Config;
 import com.google.gson.JsonParseException;
 import com.nicknackgus.saveourselves.options.Options;
-import com.nicknackgus.saveourselves.alarms.LoopingAlarm;
+import com.nicknackgus.saveourselves.alarms.HeartbeatAlarm;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import net.fabricmc.api.ClientModInitializer;
@@ -37,7 +37,7 @@ public class SaveOurSelvesClient implements ClientModInitializer {
 			e.printStackTrace();
 		}
 
-		ClientTickEvents.END_CLIENT_TICK.register(new LoopingAlarm());
+		ClientTickEvents.END_CLIENT_TICK.register(new HeartbeatAlarm());
 	}
 
 	public static void saveConfig() {

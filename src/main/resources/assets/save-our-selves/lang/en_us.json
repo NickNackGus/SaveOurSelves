@@ -3,11 +3,15 @@
   "save-our-selves.config.title": "Unofficial Monumenta Mod Configuration",
 
   "save-our-selves.config.category.self": "Your Low Health Alerts",
-  "save-our-selves.config.option.selfLowHealthEnableLoop": "Continuous low health alarm",
-  "save-our-selves.config.option.selfLowHealthEnableLoop.tooltip": "Beep as long as your health is low",
-  "save-our-selves.config.option.selfLowHealthVolume": "Low health volume",
-  "save-our-selves.config.option.selfLowHealthVolume.tooltip": "How loud you want your health alarm",
   "save-our-selves.config.option.selfLowHealthPercentage": "Low health percentage",
-  "save-our-selves.config.option.selfLowHealthPercentage.tooltip": "At what percent of your max health are you considered low\nIgnores absorption hearts"
+  "save-our-selves.config.option.selfLowHealthPercentage.tooltip": "At what percent of your max health are you considered low\nIgnores absorption hearts",
+  "save-our-selves.config.option.selfLowHealthEnableHeartbeat": "Continuous low health alarm",
+  "save-our-selves.config.option.selfLowHealthEnableHeartbeat.tooltip": "Beep as long as your health is low",
+  "save-our-selves.config.option.selfLowHealthHeartbeatVolume": "Heartbeat volume",
+  "save-our-selves.config.option.selfLowHealthHeartbeatVolume.tooltip": "How loud you want your heartbeat",
+  "save-our-selves.config.option.selfAlarmHeartbeatHealthLow": "Low health heartbeat BPM",
+  "save-our-selves.config.option.selfAlarmHeartbeatHealthLow.tooltip": "If not 0, you'll hear a heartbeat at this BPM",
+  "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical": "Critical health heartbeat BPM",
+  "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear when dead,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0"
 
 }

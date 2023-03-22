@@ -18,10 +18,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
-public class LoopingAlarm implements ClientTickEvents.EndTick {
+public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 
-	public static final long LOOP_DURATION_MILLIS = 1000L;
-	public static final long SECOND_NOTE_MILLIS = 300L;
+	public static final double SECOND_HEARTBEAT_LOOP_PERCENT = 0.3;
 
 	protected static class PlayerState {
 		UUID playerId;
@@ -35,7 +34,10 @@ public class LoopingAlarm implements ClientTickEvents.EndTick {
 		}
 
 		public void update(MinecraftClient client, PlayerEntity player) {
-			if (PlayerUtils.getHealthPercent(player) <= SaveOurSelvesClient.options.selfLowHealthPercentage) {
+			float healthPercent = PlayerUtils.getHealthPercent(player);
+			if (healthPercent > SaveOurSelvesClient.options.selfLowHealthPercentage) {
+				healthy = true;
+			} else {
 				LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
 				if (healthy) {
@@ -43,17 +45,33 @@ public class LoopingAlarm implements ClientTickEvents.EndTick {
 				}
 				healthy = false;
 
-				long loopPartMillis = loopStartTime.until(now, ChronoUnit.MILLIS);
-				if (loopPartMillis >= LOOP_DURATION_MILLIS) {
-					lastLoopPartMillis = -1L;
-					long loopsElapsed = loopPartMillis / LOOP_DURATION_MILLIS;
-					loopStartTime = loopStartTime.plus(loopsElapsed * LOOP_DURATION_MILLIS,
-							ChronoUnit.MILLIS);
-					loopPartMillis %= LOOP_DURATION_MILLIS;
+				int bpmLow = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthLow;
+				int bpmCritical = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthCritical;
+
+				if (bpmLow == 0) {
+					return;
 				}
 
-				if (loopPartMillis >= SECOND_NOTE_MILLIS) {
-					if (lastLoopPartMillis < SECOND_NOTE_MILLIS) {
+				float bpm = bpmLow + (bpmCritical - bpmLow) * 0.02F * (50.0F - healthPercent);
+				if (bpm == 0.0F) {
+					return;
+				}
+				long loopDurationMillis = (long) (60000.0F / bpm);
+				if (loopDurationMillis == 0L) {
+					return;
+				}
+				long loopPartMillis = loopStartTime.until(now, ChronoUnit.MILLIS);
+				if (loopPartMillis >= loopDurationMillis) {
+					lastLoopPartMillis = -1L;
+					long loopsElapsed = loopPartMillis / loopDurationMillis;
+					loopStartTime = loopStartTime.plus(loopsElapsed * loopDurationMillis,
+							ChronoUnit.MILLIS);
+					loopPartMillis %= loopDurationMillis;
+				}
+
+				long secondHeartbeatMillis = (long) (loopDurationMillis * SECOND_HEARTBEAT_LOOP_PERCENT);
+				if (loopPartMillis >= secondHeartbeatMillis) {
+					if (lastLoopPartMillis < secondHeartbeatMillis) {
 						playNote(client, player, Constants.Note.A3);
 						playNote(client, player, Constants.Note.AS3);
 					}
@@ -63,15 +81,13 @@ public class LoopingAlarm implements ClientTickEvents.EndTick {
 					}
 				}
 				lastLoopPartMillis = loopPartMillis;
-			} else {
-				healthy = true;
 			}
 		}
 
 		private void playNote(MinecraftClient client, PlayerEntity player, Constants.Note note) {
 			float volume;
 			if (isSelf) {
-				volume = 0.01f * SaveOurSelvesClient.options.selfLowHealthVolume;
+				volume = 0.01f * SaveOurSelvesClient.options.selfLowHealthHeartbeatVolume;
 			} else {
 				volume = 0.0f;
 			}
@@ -99,7 +115,7 @@ public class LoopingAlarm implements ClientTickEvents.EndTick {
 	public void onEndTick(MinecraftClient client) {
 		Options options = SaveOurSelvesClient.options;
 
-		if (options.selfLowHealthEnableLoop && client.player != null) {
+		if (options.selfLowHealthEnableHeartbeat && client.player != null) {
 			UUID uuid = client.player.getUuid();
 			PlayerState playerState = playerStates.computeIfAbsent(uuid, PlayerState::new);
 			playerState.isSelf = true;
