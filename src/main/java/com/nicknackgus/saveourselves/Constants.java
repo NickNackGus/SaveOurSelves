@@ -3,7 +3,7 @@ package com.nicknackgus.saveourselves;
 public class Constants {
 	public enum Note {
 		FS3(0, "F♯₃"),
-		GB3(0, "F♭₃"),
+		GB3(0, "G♭₃"),
 		G3(1, "G₃"),
 		GS3(2, "G♯₃"),
 		AB3(2, "A♭₃"),
@@ -20,7 +20,7 @@ public class Constants {
 		E4(10, "E₄"),
 		F4(11, "F₄"),
 		FS4(12, "F♯₄"),
-		GB4(12, "F♭₄"),
+		GB4(12, "G♭₄"),
 		G4(13, "G₄"),
 		GS4(14, "G♯₄"),
 		AB4(14, "A♭₄"),
@@ -37,7 +37,7 @@ public class Constants {
 		E5(22, "E₅"),
 		F5(23, "F₅"),
 		FS5(24, "F♯₅"),
-		GB5(24, "F♭₅");
+		GB5(24, "G♭₅");
 
 		public final int index;
 		public final String name;

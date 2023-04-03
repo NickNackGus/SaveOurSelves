@@ -21,6 +21,21 @@ public class Options implements ch.njol.minecraft.config.Options {
 	@IntSlider(min = 0, max = 240, unit = " BPM")
 	public int selfAlarmHeartbeatHealthCritical = 120;
 
+	@Category("player")
+	@FloatSlider(min = 0.0F, max = 100.0F, step = 1.0F, unit = " %")
+	public float playerLowHealthPercentage = 50.0F;
+	@Category("player")
+	public boolean playerLowHealthEnableHeartbeat = false;
+	@Category("player")
+	@FloatSlider(min = 0.0F, max = 100.0F, step = 1.0F, unit = " %")
+	public float playerLowHealthHeartbeatVolume = 25.0F;
+	@Category("player")
+	@IntSlider(min = 0, max = 240, unit = " BPM")
+	public int playerAlarmHeartbeatHealthLow = 60;
+	@Category("player")
+	@IntSlider(min = 0, max = 240, unit = " BPM")
+	public int playerAlarmHeartbeatHealthCritical = 120;
+
 	@Override
 	public void onUpdate() {
 		SaveOurSelvesClient.saveConfig();

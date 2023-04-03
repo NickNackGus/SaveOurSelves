@@ -4,7 +4,7 @@
 
   "save-our-selves.config.category.self": "Your Low Health Alerts",
   "save-our-selves.config.option.selfLowHealthPercentage": "Low health percentage",
-  "save-our-selves.config.option.selfLowHealthPercentage.tooltip": "At what percent of your max health are you considered low\nIgnores absorption hearts",
+  "save-our-selves.config.option.selfLowHealthPercentage.tooltip": "At what percent of your max health are you considered low",
   "save-our-selves.config.option.selfLowHealthEnableHeartbeat": "Continuous low health alarm",
   "save-our-selves.config.option.selfLowHealthEnableHeartbeat.tooltip": "Beep as long as your health is low",
   "save-our-selves.config.option.selfLowHealthHeartbeatVolume": "Heartbeat volume",
@@ -12,6 +12,18 @@
   "save-our-selves.config.option.selfAlarmHeartbeatHealthLow": "Low health heartbeat BPM",
   "save-our-selves.config.option.selfAlarmHeartbeatHealthLow.tooltip": "If not 0, you'll hear a heartbeat at this BPM",
   "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical": "Critical health heartbeat BPM",
-  "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear when dead,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0"
+  "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear when dead,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0",
+
+  "save-our-selves.config.category.player": "Other Player Low Health Alerts",
+  "save-our-selves.config.option.playerLowHealthPercentage": "Low health percentage",
+  "save-our-selves.config.option.playerLowHealthPercentage.tooltip": "At what percent of your max health are players considered low",
+  "save-our-selves.config.option.playerLowHealthEnableHeartbeat": "Continuous low health alarm",
+  "save-our-selves.config.option.playerLowHealthEnableHeartbeat.tooltip": "Beep as long as players' health is low",
+  "save-our-selves.config.option.playerLowHealthHeartbeatVolume": "Heartbeat volume",
+  "save-our-selves.config.option.playerLowHealthHeartbeatVolume.tooltip": "How loud you want other players' heartbeats",
+  "save-our-selves.config.option.playerAlarmHeartbeatHealthLow": "Low health heartbeat BPM",
+  "save-our-selves.config.option.playerAlarmHeartbeatHealthLow.tooltip": "If not 0, you'll hear a heartbeat at this BPM",
+  "save-our-selves.config.option.playerAlarmHeartbeatHealthCritical": "Critical health heartbeat BPM",
+  "save-our-selves.config.option.playerAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear when dead,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0"
 
 }

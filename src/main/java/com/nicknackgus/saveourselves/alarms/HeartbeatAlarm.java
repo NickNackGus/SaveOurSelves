@@ -7,20 +7,27 @@ import com.nicknackgus.saveourselves.utils.PlayerUtils;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.sound.SoundInstance;
+import net.minecraft.client.sound.EntityTrackingSoundInstance;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
 
 public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 
+	public static final SoundEvent SELF_HEARTBEAT_SOUND
+			= new SoundEvent(new Identifier("minecraft:block.note_block.basedrum"));
+	public static final SoundEvent PLAYER_HEARTBEAT_SOUND
+			= new SoundEvent(new Identifier("minecraft:block.note_block.basedrum"));
 	public static final double SECOND_HEARTBEAT_LOOP_PERCENT = 0.3;
+	public static final double MAX_DISTANCE = 32.0;
 
 	protected static class PlayerState {
 		UUID playerId;
@@ -35,7 +42,13 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 
 		public void update(MinecraftClient client, PlayerEntity player) {
 			float healthPercent = PlayerUtils.getHealthPercent(player);
-			if (healthPercent > SaveOurSelvesClient.options.selfLowHealthPercentage) {
+			float healthThreshold;
+			if (isSelf) {
+				healthThreshold = SaveOurSelvesClient.options.selfLowHealthPercentage;
+			} else {
+				healthThreshold = SaveOurSelvesClient.options.playerLowHealthPercentage;
+			}
+			if (healthPercent > healthThreshold) {
 				healthy = true;
 			} else {
 				LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
@@ -45,8 +58,15 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 				}
 				healthy = false;
 
-				int bpmLow = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthLow;
-				int bpmCritical = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthCritical;
+				int bpmLow;
+				int bpmCritical;
+				if (isSelf) {
+					bpmLow = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthLow;
+					bpmCritical = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthCritical;
+				} else {
+					bpmLow = SaveOurSelvesClient.options.playerAlarmHeartbeatHealthLow;
+					bpmCritical = SaveOurSelvesClient.options.playerAlarmHeartbeatHealthCritical;
+				}
 
 				if (bpmLow == 0) {
 					return;
@@ -85,27 +105,22 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 		}
 
 		private void playNote(MinecraftClient client, PlayerEntity player, Constants.Note note) {
+			SoundEvent sound;
 			float volume;
 			if (isSelf) {
+				sound = SELF_HEARTBEAT_SOUND;
 				volume = 0.01f * SaveOurSelvesClient.options.selfLowHealthHeartbeatVolume;
 			} else {
-				volume = 0.0f;
+				sound = PLAYER_HEARTBEAT_SOUND;
+				volume = 0.01f * SaveOurSelvesClient.options.playerLowHealthHeartbeatVolume;
 			}
 
-			Vec3d eyePos = player.getEyePos();
-
 			client.getSoundManager().play(
-					new PositionedSoundInstance(new Identifier("minecraft:block.note_block.basedrum"),
+					new EntityTrackingSoundInstance(sound,
 							SoundCategory.MASTER,
 							volume,
 							note.pitch,
-							false,
-							0,
-							SoundInstance.AttenuationType.NONE,
-							isSelf ? 0.0F : eyePos.getX(),
-							isSelf ? 0.0F : eyePos.getY(),
-							isSelf ? 0.0F : eyePos.getZ(),
-							isSelf));
+							player));
 		}
 	}
 
@@ -115,11 +130,37 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 	public void onEndTick(MinecraftClient client) {
 		Options options = SaveOurSelvesClient.options;
 
-		if (options.selfLowHealthEnableHeartbeat && client.player != null) {
-			UUID uuid = client.player.getUuid();
+		PlayerEntity self = client.player;
+		if (self == null) {
+			return;
+		}
+
+		if (options.selfLowHealthEnableHeartbeat) {
+			UUID uuid = self.getUuid();
 			PlayerState playerState = playerStates.computeIfAbsent(uuid, PlayerState::new);
 			playerState.isSelf = true;
-			playerState.update(client, client.player);
+			playerState.update(client, self);
+		}
+
+		Set<UUID> missingPlayers = new HashSet<>(playerStates.keySet());
+		ClientWorld clientWorld = client.world;
+		if (options.playerLowHealthEnableHeartbeat && clientWorld != null) {
+			for (PlayerEntity player : clientWorld.getPlayers()) {
+				UUID uuid = player.getUuid();
+				missingPlayers.remove(uuid);
+				if (uuid.equals(self.getUuid())) {
+					continue;
+				}
+				if (self.distanceTo(player) > MAX_DISTANCE) {
+					continue;
+				}
+				PlayerState playerState = playerStates.computeIfAbsent(uuid, PlayerState::new);
+				playerState.update(client, player);
+			}
+
+			for (UUID uuid : missingPlayers) {
+				playerStates.remove(uuid);
+			}
 		}
 	}
 
