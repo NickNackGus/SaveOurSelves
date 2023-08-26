@@ -38,6 +38,8 @@ public class SaveOurSelvesClient implements ClientModInitializer {
 		}
 
 		ClientTickEvents.END_CLIENT_TICK.register(new HeartbeatAlarm());
+
+
 	}
 
 	public static void saveConfig() {

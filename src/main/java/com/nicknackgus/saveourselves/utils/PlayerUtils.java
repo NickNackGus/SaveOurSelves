@@ -43,7 +43,7 @@ public class PlayerUtils {
 
 	public static int getMonumentaSecondWindLevel(PlayerEntity player) {
 		int level = 0;
-		for (ItemStack itemStack : player.getItemsHand()) {
+		for (ItemStack itemStack : player.getHandItems()) {
 			level += ItemUtils.getMonumentaSecondWindLevel(itemStack);
 		}
 		for (ItemStack itemStack : player.getArmorItems()) {

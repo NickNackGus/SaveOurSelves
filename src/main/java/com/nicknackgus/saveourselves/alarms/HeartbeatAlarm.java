@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -23,9 +24,9 @@ import net.minecraft.util.Identifier;
 public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 
 	public static final SoundEvent SELF_HEARTBEAT_SOUND
-			= new SoundEvent(new Identifier("minecraft:block.note_block.basedrum"));
+			= SoundEvent.of(new Identifier("minecraft:block.note_block.basedrum"));
 	public static final SoundEvent PLAYER_HEARTBEAT_SOUND
-			= new SoundEvent(new Identifier("minecraft:block.note_block.basedrum"));
+			= SoundEvent.of(new Identifier("minecraft:block.note_block.basedrum"));
 	public static final double SECOND_HEARTBEAT_LOOP_PERCENT = 0.3;
 	public static final double MAX_DISTANCE = 32.0;
 
@@ -35,6 +36,7 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 		boolean healthy = true;
 		LocalDateTime loopStartTime = LocalDateTime.now(ZoneOffset.UTC);
 		long lastLoopPartMillis = -1L;
+		Random random = new Random();
 
 		public PlayerState(UUID playerId) {
 			this.playerId = playerId;
@@ -120,7 +122,8 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 							SoundCategory.MASTER,
 							volume,
 							note.pitch,
-							player));
+							player,
+							random.nextLong()));
 		}
 	}
 
