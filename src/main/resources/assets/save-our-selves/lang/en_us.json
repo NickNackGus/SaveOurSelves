@@ -1,29 +1,71 @@
 {
 
-  "save-our-selves.config.title": "Unofficial Monumenta Mod Configuration",
+  "save-our-selves.config.title": "SaveOurSelves Configuration",
+
 
   "save-our-selves.config.category.self": "Your Low Health Alerts",
   "save-our-selves.config.option.selfLowHealthPercentage": "Low health percentage",
   "save-our-selves.config.option.selfLowHealthPercentage.tooltip": "At what percent of your max health are you considered low",
-  "save-our-selves.config.option.selfLowHealthEnableHeartbeat": "Continuous low health alarm",
-  "save-our-selves.config.option.selfLowHealthEnableHeartbeat.tooltip": "Beep as long as your health is low",
+
+  "save-our-selves.config.subcategory.selfCustomSound": "Custom audio low health alarm",
+  "save-our-selves.config.option.selfLowHealthEnableCustomSound": "Enable custom audio low health alarm",
+  "save-our-selves.config.option.selfLowHealthEnableCustomSound.tooltip": "Play a sound of your choice when your health is low",
+  "save-our-selves.config.option.selfLowHealthCustomSound": "Custom audio ID",
+  "save-our-selves.config.option.selfLowHealthCustomSound.tooltip": "The audio ID as used by /playsound\nMust be a valid audio ID",
+  "save-our-selves.config.option.selfLowHealthCustomSoundMillisLow": "Low health speed",
+  "save-our-selves.config.option.selfLowHealthCustomSoundMillisLow.tooltip": "Milliseconds between sounds to use when your health is low\nMinimum of 50 ms",
+  "save-our-selves.config.option.selfLowHealthCustomSoundMillisCritical": "Critical health speed",
+  "save-our-selves.config.option.selfLowHealthCustomSoundMillisCritical.tooltip": "Milliseconds between sounds to use when you're about to die\nMinimum of 50 ms",
+  "save-our-selves.config.option.selfLowHealthCustomSoundVolumeLow": "Low health volume",
+  "save-our-selves.config.option.selfLowHealthCustomSoundVolumeLow.tooltip": "The volume to use when your health is low",
+  "save-our-selves.config.option.selfLowHealthCustomSoundVolumeCritical": "Critical health volume",
+  "save-our-selves.config.option.selfLowHealthCustomSoundVolumeCritical.tooltip": "The volume to use when you're about to die",
+  "save-our-selves.config.option.selfLowHealthCustomSoundPitchLow": "Low health pitch",
+  "save-our-selves.config.option.selfLowHealthCustomSoundPitchLow.tooltip": "The pitch to use when your health is low",
+  "save-our-selves.config.option.selfLowHealthCustomSoundPitchCritical": "Critical health pitch",
+  "save-our-selves.config.option.selfLowHealthCustomSoundPitchCritical.tooltip": "The pitch to use when you're about to die",
+
+  "save-our-selves.config.subcategory.selfHeartbeat": "Heartbeat low health alarm",
+  "save-our-selves.config.option.selfLowHealthEnableHeartbeat": "Enable heartbeat low health alarm",
+  "save-our-selves.config.option.selfLowHealthEnableHeartbeat.tooltip": "Hear the drumming of your heart as long as your health is low",
   "save-our-selves.config.option.selfLowHealthHeartbeatVolume": "Heartbeat volume",
   "save-our-selves.config.option.selfLowHealthHeartbeatVolume.tooltip": "How loud you want your heartbeat",
   "save-our-selves.config.option.selfAlarmHeartbeatHealthLow": "Low health heartbeat BPM",
   "save-our-selves.config.option.selfAlarmHeartbeatHealthLow.tooltip": "If not 0, you'll hear a heartbeat at this BPM",
   "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical": "Critical health heartbeat BPM",
-  "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear when dead,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0",
+  "save-our-selves.config.option.selfAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear when you're about to die,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0",
+
 
   "save-our-selves.config.category.player": "Other Player Low Health Alerts",
   "save-our-selves.config.option.playerLowHealthPercentage": "Low health percentage",
   "save-our-selves.config.option.playerLowHealthPercentage.tooltip": "At what percent of your max health are players considered low",
-  "save-our-selves.config.option.playerLowHealthEnableHeartbeat": "Continuous low health alarm",
-  "save-our-selves.config.option.playerLowHealthEnableHeartbeat.tooltip": "Beep as long as players' health is low",
+
+  "save-our-selves.config.subcategory.playerCustomSound": "Custom audio low health alarm",
+  "save-our-selves.config.option.playerLowHealthEnableCustomSound": "Enable custom audio low health alarm",
+  "save-our-selves.config.option.playerLowHealthEnableCustomSound.tooltip": "Play a sound of your choice when other players' health is low",
+  "save-our-selves.config.option.playerLowHealthCustomSound": "Custom audio ID",
+  "save-our-selves.config.option.playerLowHealthCustomSound.tooltip": "The audio ID as used by /playsound\nMust be a valid audio ID",
+  "save-our-selves.config.option.playerLowHealthCustomSoundMillisLow": "Low health speed",
+  "save-our-selves.config.option.playerLowHealthCustomSoundMillisLow.tooltip": "Milliseconds between sounds to use when other players' health is low\nMinimum of 50 ms",
+  "save-our-selves.config.option.playerLowHealthCustomSoundMillisCritical": "Critical health speed",
+  "save-our-selves.config.option.playerLowHealthCustomSoundMillisCritical.tooltip": "Milliseconds between sounds to use when other players are about to die\nMinimum of 50 ms",
+  "save-our-selves.config.option.playerLowHealthCustomSoundVolumeLow": "Low health volume",
+  "save-our-selves.config.option.playerLowHealthCustomSoundVolumeLow.tooltip": "The volume to use when other players' health is low",
+  "save-our-selves.config.option.playerLowHealthCustomSoundVolumeCritical": "Critical health volume",
+  "save-our-selves.config.option.playerLowHealthCustomSoundVolumeCritical.tooltip": "The volume to use when other players are about to die",
+  "save-our-selves.config.option.playerLowHealthCustomSoundPitchLow": "Low health pitch",
+  "save-our-selves.config.option.playerLowHealthCustomSoundPitchLow.tooltip": "The pitch to use when other players' health is low",
+  "save-our-selves.config.option.playerLowHealthCustomSoundPitchCritical": "Critical health pitch",
+  "save-our-selves.config.option.playerLowHealthCustomSoundPitchCritical.tooltip": "The pitch to use when other players are about to die",
+
+  "save-our-selves.config.subcategory.playerHeartbeat": "Heartbeat low health alarm",
+  "save-our-selves.config.option.playerLowHealthEnableHeartbeat": "Enable heartbeat low health alarm",
+  "save-our-selves.config.option.playerLowHealthEnableHeartbeat.tooltip": "Hear the drumming of nearby players' hearts as long as those players' health is low",
   "save-our-selves.config.option.playerLowHealthHeartbeatVolume": "Heartbeat volume",
   "save-our-selves.config.option.playerLowHealthHeartbeatVolume.tooltip": "How loud you want other players' heartbeats",
   "save-our-selves.config.option.playerAlarmHeartbeatHealthLow": "Low health heartbeat BPM",
   "save-our-selves.config.option.playerAlarmHeartbeatHealthLow.tooltip": "If not 0, you'll hear a heartbeat at this BPM",
   "save-our-selves.config.option.playerAlarmHeartbeatHealthCritical": "Critical health heartbeat BPM",
-  "save-our-selves.config.option.playerAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear when dead,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0"
+  "save-our-selves.config.option.playerAlarmHeartbeatHealthCritical.tooltip": "The heartbeat BPM you'll hear other players are close to death,\nwith all health values in between scaled accordingly.\nIgnored if low health heartbeat BPM is 0"
 
 }

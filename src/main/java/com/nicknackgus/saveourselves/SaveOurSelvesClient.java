@@ -2,6 +2,7 @@ package com.nicknackgus.saveourselves;
 
 import ch.njol.minecraft.config.Config;
 import com.google.gson.JsonParseException;
+import com.nicknackgus.saveourselves.alarms.CustomLoopAlarm;
 import com.nicknackgus.saveourselves.options.Options;
 import com.nicknackgus.saveourselves.alarms.HeartbeatAlarm;
 import java.io.FileNotFoundException;
@@ -37,6 +38,7 @@ public class SaveOurSelvesClient implements ClientModInitializer {
 			e.printStackTrace();
 		}
 
+		ClientTickEvents.END_CLIENT_TICK.register(new CustomLoopAlarm());
 		ClientTickEvents.END_CLIENT_TICK.register(new HeartbeatAlarm());
 
 

@@ -1,6 +1,5 @@
 package com.nicknackgus.saveourselves.alarms;
 
-import com.nicknackgus.saveourselves.Constants;
 import com.nicknackgus.saveourselves.SaveOurSelvesClient;
 import com.nicknackgus.saveourselves.options.Options;
 import com.nicknackgus.saveourselves.utils.PlayerUtils;
@@ -19,15 +18,11 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class HeartbeatAlarm implements ClientTickEvents.EndTick {
+public class CustomLoopAlarm implements ClientTickEvents.EndTick {
 
-	public static final SoundEvent SELF_HEARTBEAT_SOUND
-			= SoundEvent.of(new Identifier("minecraft:block.note_block.basedrum"));
-	public static final SoundEvent PLAYER_HEARTBEAT_SOUND
-			= SoundEvent.of(new Identifier("minecraft:block.note_block.basedrum"));
-	public static final double SECOND_HEARTBEAT_LOOP_PERCENT = 0.3;
 	public static final double MAX_DISTANCE = 32.0;
 
 	protected static class PlayerState {
@@ -63,25 +58,25 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 				}
 				healthy = false;
 
-				int bpmLow;
-				int bpmCritical;
+				float msLow;
+				float msCritical;
 				if (isSelf) {
-					bpmLow = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthLow;
-					bpmCritical = SaveOurSelvesClient.options.selfAlarmHeartbeatHealthCritical;
+					msLow = SaveOurSelvesClient.options.selfLowHealthCustomSoundMillisLow;
+					msCritical = SaveOurSelvesClient.options.selfLowHealthCustomSoundMillisCritical;
 				} else {
-					bpmLow = SaveOurSelvesClient.options.playerAlarmHeartbeatHealthLow;
-					bpmCritical = SaveOurSelvesClient.options.playerAlarmHeartbeatHealthCritical;
+					msLow = SaveOurSelvesClient.options.playerLowHealthCustomSoundMillisLow;
+					msCritical = SaveOurSelvesClient.options.playerLowHealthCustomSoundMillisCritical;
 				}
 
-				if (bpmLow == 0) {
+				if (msLow < 50 || msCritical < 50) {
 					return;
 				}
 
-				float bpm = bpmLow + (bpmCritical - bpmLow) * (healthThreshold - healthPercent) / healthThreshold;
-				if (bpm <= 0.0F) {
+				float msFloat = msLow + (msCritical - msLow) * (healthThreshold - healthPercent) / healthThreshold;
+				if (msFloat <= 50.0F) {
 					return;
 				}
-				long loopDurationMillis = (long) (60000.0F / bpm);
+				long loopDurationMillis = (long) msFloat;
 				if (loopDurationMillis == 0L) {
 					return;
 				}
@@ -94,37 +89,59 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 					loopPartMillis %= loopDurationMillis;
 				}
 
-				long secondHeartbeatMillis = (long) (loopDurationMillis * SECOND_HEARTBEAT_LOOP_PERCENT);
-				if (loopPartMillis >= secondHeartbeatMillis) {
-					if (lastLoopPartMillis < secondHeartbeatMillis) {
-						playNote(client, player, Constants.Note.A3);
-						playNote(client, player, Constants.Note.AS3);
-					}
-				} else {
-					if (lastLoopPartMillis < 0) {
-						playNote(client, player, Constants.Note.G3);
-					}
+				if (lastLoopPartMillis < 0) {
+					playSound(client, player, healthPercent, healthThreshold);
 				}
 				lastLoopPartMillis = loopPartMillis;
 			}
 		}
 
-		private void playNote(MinecraftClient client, PlayerEntity player, Constants.Note note) {
-			SoundEvent sound;
-			float volume;
+		private void playSound(
+				MinecraftClient client,
+				PlayerEntity player,
+				float healthPercent,
+				float healthThreshold
+		) {
 			if (isSelf) {
-				sound = SELF_HEARTBEAT_SOUND;
-				volume = 0.01f * SaveOurSelvesClient.options.selfLowHealthHeartbeatVolume;
+				if (!SaveOurSelvesClient.options.selfLowHealthEnableCustomSound) {
+					return;
+				}
 			} else {
-				sound = PLAYER_HEARTBEAT_SOUND;
-				volume = 0.01f * SaveOurSelvesClient.options.playerLowHealthHeartbeatVolume;
+				if (!SaveOurSelvesClient.options.playerLowHealthEnableCustomSound) {
+					return;
+				}
 			}
+
+			SoundEvent sound;
+			float volumeLow;
+			float volumeCritical;
+			float pitchLow;
+			float pitchCritical;
+			if (isSelf) {
+				sound = SoundEvent.of(new Identifier(SaveOurSelvesClient.options.selfLowHealthCustomSound));
+				volumeLow = 0.01f * SaveOurSelvesClient.options.selfLowHealthCustomSoundVolumeLow;
+				volumeCritical = 0.01f * SaveOurSelvesClient.options.selfLowHealthCustomSoundVolumeCritical;
+				pitchLow = SaveOurSelvesClient.options.selfLowHealthCustomSoundPitchLow;
+				pitchCritical = SaveOurSelvesClient.options.selfLowHealthCustomSoundPitchCritical;
+			} else {
+				sound = SoundEvent.of(new Identifier(SaveOurSelvesClient.options.playerLowHealthCustomSound));
+				volumeLow = 0.01f * SaveOurSelvesClient.options.playerLowHealthCustomSoundVolumeLow;
+				volumeCritical = 0.01f * SaveOurSelvesClient.options.playerLowHealthCustomSoundVolumeCritical;
+				pitchLow = SaveOurSelvesClient.options.playerLowHealthCustomSoundPitchLow;
+				pitchCritical = SaveOurSelvesClient.options.playerLowHealthCustomSoundPitchCritical;
+			}
+
+			float volume = volumeLow + (volumeCritical - volumeLow) * (healthThreshold - healthPercent) / healthThreshold;
+			float pitch = pitchLow + (pitchCritical - pitchLow) * (healthThreshold - healthPercent) / healthThreshold;
+
+			volume = Float.max(0.0f, Float.min(1.0f, volume));
+			pitch = Float.max(0.5f, Float.min(2.0f, pitch));
 
 			client.getSoundManager().play(
 					new EntityTrackingSoundInstance(sound,
 							SoundCategory.MASTER,
 							volume,
-							note.pitch,
+							pitch,
 							player,
 							random.nextLong()));
 		}
@@ -141,7 +158,7 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 			return;
 		}
 
-		if (options.selfLowHealthEnableHeartbeat) {
+		if (options.selfLowHealthEnableCustomSound) {
 			UUID uuid = self.getUuid();
 			PlayerState playerState = playerStates.computeIfAbsent(uuid, PlayerState::new);
 			playerState.isSelf = true;
@@ -150,7 +167,7 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 
 		Set<UUID> missingPlayers = new HashSet<>(playerStates.keySet());
 		ClientWorld clientWorld = client.world;
-		if (options.playerLowHealthEnableHeartbeat && clientWorld != null) {
+		if (options.playerLowHealthEnableCustomSound && clientWorld != null) {
 			for (PlayerEntity player : clientWorld.getPlayers()) {
 				UUID uuid = player.getUuid();
 				missingPlayers.remove(uuid);
