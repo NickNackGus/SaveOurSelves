@@ -151,6 +151,11 @@ public class CustomLoopAlarm implements ClientTickEvents.EndTick {
 
 	@Override
 	public void onEndTick(MinecraftClient client) {
+		ClientWorld clientWorld = client.world;
+		if (clientWorld == null || (client.isInSingleplayer() && client.isPaused())) {
+			return;
+		}
+
 		Options options = SaveOurSelvesClient.options;
 
 		PlayerEntity self = client.player;
@@ -166,8 +171,8 @@ public class CustomLoopAlarm implements ClientTickEvents.EndTick {
 		}
 
 		Set<UUID> missingPlayers = new HashSet<>(playerStates.keySet());
-		ClientWorld clientWorld = client.world;
-		if (options.playerLowHealthEnableCustomSound && clientWorld != null) {
+		missingPlayers.remove(self.getUuid());
+		if (options.playerLowHealthEnableCustomSound) {
 			for (PlayerEntity player : clientWorld.getPlayers()) {
 				UUID uuid = player.getUuid();
 				missingPlayers.remove(uuid);

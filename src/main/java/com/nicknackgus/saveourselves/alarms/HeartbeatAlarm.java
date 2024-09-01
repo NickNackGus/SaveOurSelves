@@ -134,6 +134,11 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 
 	@Override
 	public void onEndTick(MinecraftClient client) {
+		ClientWorld clientWorld = client.world;
+		if (clientWorld == null || (client.isInSingleplayer() && client.isPaused())) {
+			return;
+		}
+
 		Options options = SaveOurSelvesClient.options;
 
 		PlayerEntity self = client.player;
@@ -149,8 +154,8 @@ public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 		}
 
 		Set<UUID> missingPlayers = new HashSet<>(playerStates.keySet());
-		ClientWorld clientWorld = client.world;
-		if (options.playerLowHealthEnableHeartbeat && clientWorld != null) {
+		missingPlayers.remove(self.getUuid());
+		if (options.playerLowHealthEnableHeartbeat) {
 			for (PlayerEntity player : clientWorld.getPlayers()) {
 				UUID uuid = player.getUuid();
 				missingPlayers.remove(uuid);
