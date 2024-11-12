@@ -1,5 +1,10 @@
+**SaveOurSelves 1.0.4-1.20.4** Sep 1, 2024
+[Modrinth](https://modrinth.com/mod/saveourselves/version/1.0.4-1.20.4)
+
+- Added 1.20.4 support
+
 **SaveOurSelves 1.0.4-1.19.4** Sep 1, 2024
-[Modrinth](https://modrinth.com/mod/saveourselves/version/1.1.0-1.19.4)
+[Modrinth](https://modrinth.com/mod/saveourselves/version/1.0.4-1.19.4)
 
 - Fixed alarms restarting early in some cases
 - Alarms now pause properly in singleplayer
