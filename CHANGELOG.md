@@ -1,4 +1,14 @@
-**SaveOurSelves 1.0.4-1.20.4** Sep 1, 2024
+**SaveOurSelves 1.0.5-1.20.4** Nov 12, 2024
+[Modrinth](https://modrinth.com/mod/saveourselves/version/1.0.5-1.20.4)
+
+- Updated Second Wind calculations
+
+**SaveOurSelves 1.0.5-1.19.4** Nov 12, 2024
+[Modrinth](https://modrinth.com/mod/saveourselves/version/1.0.5-1.19.4)
+
+- Updated Second Wind calculations
+
+**SaveOurSelves 1.0.4-1.20.4** Nov 12, 2024
 [Modrinth](https://modrinth.com/mod/saveourselves/version/1.0.4-1.20.4)
 
 - Added 1.20.4 support
