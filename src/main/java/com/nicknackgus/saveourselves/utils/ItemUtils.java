@@ -1,6 +1,8 @@
 package com.nicknackgus.saveourselves.utils;
 
 import net.minecraft.command.argument.NbtPathArgumentType.NbtPath;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.Equipment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,7 +24,11 @@ public class ItemUtils {
 			return false;
 		}
 
-		NbtCompound itemTag = itemStack.getNbt();
+		NbtComponent component = itemStack.get(DataComponentTypes.CUSTOM_DATA);
+		if (component == null) {
+			return false;
+		}
+		NbtCompound itemTag = component.copyNbt();
 		if (itemTag == null) {
 			return false;
 		}
@@ -31,7 +37,11 @@ public class ItemUtils {
 	}
 
 	public static int getMonumentaSecondWindLevel(ItemStack itemStack) {
-		NbtCompound itemTag = itemStack.getNbt();
+		NbtComponent component = itemStack.get(DataComponentTypes.CUSTOM_DATA);
+		if (component == null) {
+			return 0;
+		}
+		NbtCompound itemTag = component.copyNbt();
 		if (itemTag != null) {
 			for (NbtElement levelTag : NbtUtils.getNbtAtPath(itemTag, SECOND_WIND_PATH)) {
 				if (levelTag instanceof AbstractNbtNumber levelNumberTag) {

@@ -24,9 +24,9 @@ import net.minecraft.util.Identifier;
 public class HeartbeatAlarm implements ClientTickEvents.EndTick {
 
 	public static final SoundEvent SELF_HEARTBEAT_SOUND
-			= SoundEvent.of(new Identifier("minecraft:block.note_block.basedrum"));
+			= SoundEvent.of(Identifier.of("minecraft:block.note_block.basedrum"));
 	public static final SoundEvent PLAYER_HEARTBEAT_SOUND
-			= SoundEvent.of(new Identifier("minecraft:block.note_block.basedrum"));
+			= SoundEvent.of(Identifier.of("minecraft:block.note_block.basedrum"));
 	public static final double SECOND_HEARTBEAT_LOOP_PERCENT = 0.3;
 	public static final double MAX_DISTANCE = 32.0;
 

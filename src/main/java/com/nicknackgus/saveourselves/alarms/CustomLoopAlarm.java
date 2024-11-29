@@ -118,13 +118,13 @@ public class CustomLoopAlarm implements ClientTickEvents.EndTick {
 			float pitchLow;
 			float pitchCritical;
 			if (isSelf) {
-				sound = SoundEvent.of(new Identifier(SaveOurSelvesClient.options.selfLowHealthCustomSound));
+				sound = SoundEvent.of(Identifier.of(SaveOurSelvesClient.options.selfLowHealthCustomSound));
 				volumeLow = 0.01f * SaveOurSelvesClient.options.selfLowHealthCustomSoundVolumeLow;
 				volumeCritical = 0.01f * SaveOurSelvesClient.options.selfLowHealthCustomSoundVolumeCritical;
 				pitchLow = SaveOurSelvesClient.options.selfLowHealthCustomSoundPitchLow;
 				pitchCritical = SaveOurSelvesClient.options.selfLowHealthCustomSoundPitchCritical;
 			} else {
-				sound = SoundEvent.of(new Identifier(SaveOurSelvesClient.options.playerLowHealthCustomSound));
+				sound = SoundEvent.of(Identifier.of(SaveOurSelvesClient.options.playerLowHealthCustomSound));
 				volumeLow = 0.01f * SaveOurSelvesClient.options.playerLowHealthCustomSoundVolumeLow;
 				volumeCritical = 0.01f * SaveOurSelvesClient.options.playerLowHealthCustomSoundVolumeCritical;
 				pitchLow = SaveOurSelvesClient.options.playerLowHealthCustomSoundPitchLow;

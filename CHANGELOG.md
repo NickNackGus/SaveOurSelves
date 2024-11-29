@@ -1,3 +1,8 @@
+**SaveOurSelves 1.0.5-1.21.1** Nov 29, 2024
+[Modrinth](https://modrinth.com/mod/saveourselves/version/1.0.5-1.21.1)
+
+- Added 1.21.1 support
+
 **SaveOurSelves 1.0.5-1.20.4** Nov 12, 2024
 [Modrinth](https://modrinth.com/mod/saveourselves/version/1.0.5-1.20.4)
 

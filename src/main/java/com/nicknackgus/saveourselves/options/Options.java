@@ -117,7 +117,7 @@ public class Options implements ch.njol.minecraft.config.Options {
 			selfLowHealthCustomSoundMillisCritical = 50;
 		}
 		try {
-			new Identifier(selfLowHealthCustomSound);
+			Identifier.of(selfLowHealthCustomSound);
 		} catch (InvalidIdentifierException ex) {
 			selfLowHealthCustomSound = "minecraft:entity.wither.spawn";
 		}
@@ -129,7 +129,7 @@ public class Options implements ch.njol.minecraft.config.Options {
 			playerLowHealthCustomSoundMillisCritical = 50;
 		}
 		try {
-			new Identifier(playerLowHealthCustomSound);
+			Identifier.of(playerLowHealthCustomSound);
 		} catch (InvalidIdentifierException ex) {
 			playerLowHealthCustomSound = "minecraft:entity.elder_guardian.curse";
 		}
